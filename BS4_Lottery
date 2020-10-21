@@ -1,0 +1,26 @@
+import requests
+from bs4 import BeautifulSoup
+
+url="https://www.taiwanlottery.com.tw/"
+html=requests.get(url)
+lottery=BeautifulSoup(html.text,'html.parser')
+
+data_1=lottery.select("#rightdown")
+print(data_1)
+
+data_2=data_1[0].find_all('div',{'class':'contents_box02'})
+print(data_2)
+
+data_3=data_2[2].find_all('div',{'class':'ball_tx ball_yellow'})
+print(data_3)
+
+print("開出順序：",end="")
+for n in range(0,6):
+    print(data_3[n].text,end=" ") 
+    
+print("\n大小順序：",end="")    
+for n in range(6,len(data_3)):
+    print(data_3[n].text,end=" ")
+    
+red=data_2[2].find('div', {'class':'ball_red'})        
+print("\n第二區：{}".format(red.text)) 
